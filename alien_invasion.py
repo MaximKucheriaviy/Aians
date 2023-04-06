@@ -1,46 +1,39 @@
 import sys
 import pygame
 from settings import Settings
-from ship import Ship
+from button import Button
 
 class AlienInvasion:
     def __init__(self):
         pygame.init()
-        
 
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.bg_color = self.settings.bg_color
-        pygame.display.set_caption("Alien Invasion")
-        self.ship = Ship(self)
         self.mainClock = pygame.time.Clock()
         self.loopTimer = 0
+
+        self.button = Button(self, fontPath="./fonts/buttonFont.ttf", hoverEnable=True)
+        self.button2 = Button(self, fontPath="./fonts/buttonFont.ttf", top=70, color=(0, 255, 0), hoverEnable=True)
+
+        pygame.display.set_caption("Alien Invasion")
+
     def run_game(self):
         while True:
             self.loopTimer = self.mainClock.tick()
             self._check_ivents()
-            self.ship.update()
             self._update_screen()
     def _check_ivents(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.movingRight = True
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.movingRight = False
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.ship.movingLeft = True
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                    self.ship.movingLeft = False
+        if self.button.isPressed():
+            print("Button pressed")
     def _update_screen(self):
         self.screen.fill(self.bg_color)
-        self.ship.blitme()
+        self.button.display()
+        self.button2.display()
         pygame.display.flip()
 
 
