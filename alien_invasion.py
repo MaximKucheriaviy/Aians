@@ -1,7 +1,8 @@
 import sys
 import pygame
 from settings import Settings
-from button import Button
+from button.button import Button
+from gameField.gameField import GameField
 
 class AlienInvasion:
     def __init__(self):
@@ -13,8 +14,10 @@ class AlienInvasion:
         self.mainClock = pygame.time.Clock()
         self.loopTimer = 0
 
-        self.button = Button(self, fontPath="./fonts/buttonFont.ttf", hoverEnable=True)
-        self.button2 = Button(self, fontPath="./fonts/buttonFont.ttf", top=70, color=(0, 255, 0), hoverEnable=True)
+        self.button = Button(self, hoverEnable=True)
+        self.button2 = Button(self, top=70, color=(0, 255, 0), hoverEnable=True)
+
+        self.gameField = GameField(self)
 
         pygame.display.set_caption("Alien Invasion")
 
@@ -34,6 +37,7 @@ class AlienInvasion:
         self.screen.fill(self.bg_color)
         self.button.display()
         self.button2.display()
+        self.gameField.display()
         pygame.display.flip()
 
 

@@ -1,7 +1,7 @@
 import pygame
 
 class Button:
-    def __init__(self, app, width = 100, height = 50, left = 10, top = 10, color = (180, 180, 180), fontPath = "", text = "Button", textColor = (0, 0, 0), hoverColor = (140, 140, 140), hoverEnable = False):
+    def __init__(self, app, width = 100, height = 50, left = 10, top = 10, color = (180, 180, 180), fontPath = "./button/buttonFont.ttf", text = "Button", textColor = (0, 0, 0), hoverColor = (140, 140, 140), hoverEnable = False):
         if(not pygame.font.get_init()):
             pygame.font.init()
         self.screen = app.screen
@@ -20,7 +20,7 @@ class Button:
             return True
         return False
 
-    def isPressed(self, callback):
+    def isPressed(self, callback = False):
         if not self.isHover():
             return False
         if pygame.mouse.get_pressed()[0] and self.pressed:
@@ -29,7 +29,8 @@ class Button:
             self.pressed = False
         if pygame.mouse.get_pressed()[0]:
             self.pressed = True
-            callback()
+            if(callback):
+                callback()
             return True
         return False
 
