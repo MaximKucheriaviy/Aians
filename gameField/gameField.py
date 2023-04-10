@@ -1,12 +1,15 @@
 import pygame
 from chip.chip import Chip
-import copy
+import random
 
 class GameField:
     def __init__(self, app):
+        random.seed()
         self.screen = app.screen
         self.settings = app.settings
         self.fields = []
+        self.randomMoves = 100
+        self.randomiseTriger = False
         for i in range(0, 4):
             self.fields.append([])
             for j in range(0, 4):
@@ -46,14 +49,30 @@ class GameField:
                 if(field['chip'] is None):
                     continue
                 if(field['chip'].isPressed()):
-                    self.moveField(field['chip'].canMove[0], field['chip'].canMove[1], field['chip'])
+                    self.moveField(field['chip'])
                     field['chip'] = None
                     moved = True
                     break
             if moved:
                 break
-    def moveField(self, toI, toJ, chip):
-        self.fields[toI][toJ]['chip'] = chip
+    def randomise(self):
+        if not self.randomiseTriger:
+            return        
+        while True:
+            i = random.randint(0, 3)
+            j = random.randint(0, 3)
+            if self.fields[i][j]['chip'] is None:
+                continue
+            if not self.fields[i][j]['chip'].canMove:
+                continue
+            self.moveField(self.fields[i][j]['chip'])
+            self.fields[i][j]['chip'] = None
+            self.randomMoves -= 1
+            if self.randomMoves == 0:
+                self.randomiseTriger = False
+            break
+    def moveField(self, chip):
+        self.fields[chip.canMove[0]][chip.canMove[1]]['chip'] = chip
     def display(self):
         for item in self.fields:
             for rect in item:

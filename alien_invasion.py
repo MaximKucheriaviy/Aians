@@ -33,10 +33,12 @@ class AlienInvasion:
                 sys.exit()
 
         if self.button.isPressed():
-            print("Button pressed")
+            self.gameField.randomiseTriger = True
+            self.gameField.randomMoves = 100
     def process(self):
         self.gameField.setMowebleChips()
         self.gameField.chipClickPrecess()
+        self.gameField.randomise()
     def _update_screen(self):
         self.screen.fill(self.bg_color)
         self.button.display()
