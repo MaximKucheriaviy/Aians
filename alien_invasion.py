@@ -25,6 +25,7 @@ class AlienInvasion:
         while True:
             self.loopTimer = self.mainClock.tick()
             self._check_ivents()
+            self.process()
             self._update_screen()
     def _check_ivents(self):
         for event in pygame.event.get():
@@ -33,6 +34,9 @@ class AlienInvasion:
 
         if self.button.isPressed():
             print("Button pressed")
+    def process(self):
+        self.gameField.setMowebleChips()
+        self.gameField.chipClickPrecess()
     def _update_screen(self):
         self.screen.fill(self.bg_color)
         self.button.display()
