@@ -5,6 +5,7 @@ import random
 class GameField:
     def __init__(self, app):
         random.seed()
+        self.sound = pygame.mixer.Sound('./sounds/slide.mp3')
         self.screen = app.screen
         self.settings = app.settings
         self.fields = []
@@ -38,7 +39,6 @@ class GameField:
                         self.setCanMove(i, j + 1, i, j)
                     if j - 1 >= 0:
                         self.setCanMove(i, j - 1, i, j)
-
     def setCanMove(self, chipI, chipJ, targetI, tagetJ):
         self.fields[chipI][chipJ]['chip'].canMove = (targetI, tagetJ)
         
@@ -49,8 +49,9 @@ class GameField:
                 if(field['chip'] is None):
                     continue
                 if(field['chip'].isPressed()):
-                    self.moveField(field['chip'])
+                    self.moveFieldSmoth(field['chip'])
                     field['chip'] = None
+                    self.sound.play()
                     moved = True
                     break
             if moved:
@@ -73,6 +74,9 @@ class GameField:
             break
     def moveField(self, chip):
         self.fields[chip.canMove[0]][chip.canMove[1]]['chip'] = chip
+    def moveFieldSmoth(self, chip):
+        self.fields[chip.canMove[0]][chip.canMove[1]]['chip'] = chip
+        self.fields[chip.canMove[0]][chip.canMove[1]]['chip'].moving = True
     def display(self):
         for item in self.fields:
             for rect in item:
