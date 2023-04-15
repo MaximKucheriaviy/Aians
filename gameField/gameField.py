@@ -6,11 +6,13 @@ class GameField:
     def __init__(self, app):
         random.seed()
         self.sound = pygame.mixer.Sound('./sounds/slide.mp3')
+        self.woodTexture = pygame.image.load("./assets/woodTexture.jpg")
         self.screen = app.screen
         self.settings = app.settings
         self.fields = []
         self.randomMoves = 100
         self.randomiseTriger = False
+        self.woodTexture = pygame.transform.scale(self.woodTexture, (self.settings.gameFieldSize / 4, self.settings.gameFieldSize / 4))
         for i in range(0, 4):
             self.fields.append([])
             for j in range(0, 4):
@@ -80,7 +82,8 @@ class GameField:
     def display(self):
         for item in self.fields:
             for rect in item:
-                pygame.draw.rect(self.screen, pygame.Color(0, 255, 0), rect['field'])
+                # pygame.draw.rect(self.screen, pygame.Color(0, 255, 0), rect['field'])
+                self.screen.blit(self.woodTexture, rect['field'])
         for item in self.fields:
             for field in item:
                 if(field['chip'] is None):
